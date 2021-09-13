@@ -51,7 +51,7 @@ class Config:
                 self.stat_end = conf['stat_end']
 
 
-def get_png(graph_id, graph_name):
+def get_png(graph_id, graph_name, params):
     file_name = graph_name.lower().replace(' ', '_').replace('/', '-')
     print('"{gname}" saving to {path}/{fname}.png'.format(gname=graph_name, path=params.save_path, fname=file_name))
     login_data = {'autologin': '1', 'name': params.user, 'password': params.password, 'enter': 'Sign in'}
@@ -97,7 +97,7 @@ def merge_png(sum_file, image):
             dst.save(sum_file)
 
 
-def main():
+def main(params):
     if not os.path.isdir(params.save_path):
         os.makedirs(params.save_path)
     if os.path.isfile(summary_file):
@@ -114,7 +114,7 @@ def main():
                 print(g['name'])
             else:
                 if params.graphs is not None and g['name'] in params.graphs:
-                    get_png(g['graphid'], g['name'])
+                    get_png(g['graphid'], g['name'], params)
 
 
 if __name__ == '__main__':
@@ -189,6 +189,6 @@ if __name__ == '__main__':
         quit(0)
 
     try:
-        main()
+        main(params)
     except KeyboardInterrupt:
         print('Aborted')
